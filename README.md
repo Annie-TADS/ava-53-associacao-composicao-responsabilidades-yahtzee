@@ -1,57 +1,136 @@
-# Template para projetos Java usando o Visual Studio Code
+# 5.3 // Associação, Composição e Responsabilidade // Yahtzee
 
-Um _template_ é um projeto base, para não iniciar do zero e ter pelo menos uma estrutura mínima onde se apoiar.
+Use este link do GitHub Classroom para ter sua cópia alterável deste repositório: <>
 
-Antes de começar a desenvolver com este _template_ é necessário ter instalado o Java Software Development Kit (JDK), o editor Visual Studio Code (VSCode) e o utilitário de controle de versão de código _Git_.
+Implementar respeitando os fundamentos de Orientação a Objetos.
 
+**Tópicos desta atividade:** associações, composição, atribuição de responsabilidades, coesão.
 
+---
 
-## Instalação e Configuração do JDK
+Implementar o jogo Yahtzee conforme especificação em <http://en.wikipedia.org/wiki/Yahtzee#Rules>. Não implementar as opções extras, apenas as 13 categorias básicas.
 
-É necessário instalar o JDK a partir da versão 8, porém é recomendada versão 11-LTS (Long Term Support - suporte de longo prazo) ou até mesmo a 17-LTS.
+A classe `Yahtzee` deve ter cinco instâncias de [Dado](src/model/Dado.java) internamente, para proceder a aleatoriedade das jogadas.
 
-Para o Sistema Operacional (SO) Windows, ele pode ser obtido aqui <https://adoptium.net/?variant=openjdk11&jvmVariant=hotspot>. Siga as instruções de instalação e não esqueça de selecionar os opcionais durante o processo, especialmente a parte ⚠️ _"add Java to PATH"_.
+Os Casos de Teste podem ser alterados para coincidir com sua lógica e fluxo de execução na interação com o jogo.
 
-Para Sistemas Operacionais Linux/Debian, como Ubuntu, Pop OS, Mint, Elementary, etc, execute no terminal o comando `sudo apt install openjdk-11-jdk`, que a mágica vai acontecer.
-
-Para testar a instalação, seja no Windows ou Linux, abra o _Prompt_ de Comando (cmd) ou o Terminal e execute o compilador Java com `javac -version`. A saída deve ser algo com `javac 11.0.9.1`, ou outra versão.
-
-
-
-## Instalação e Configuração do Visual Studio Code (VSCode)
-
-O VSCode pode ser obtido aqui: <https://code.visualstudio.com/download>. A instalação é semelhante nos Sistemas Operacionais Windows e Linux.
-
-No Windows, abra o instalador e não esqueça de selecionar todos os opcionais, como _adicionar code ao path_ e _adicionar "abrir com code" ao menu_, por exemplo.
-
-No Linux, abra o arquivo `.deb` baixado no gerenciador de pacotes e instale normalmente conforme instruções de seu sistema operacional.
-
-Este _template_ possui uma pasta [.vscode](.vscode) com as extensões necessárias em [extensions.json](.vscode/extensions.json) e as configurações recomendadas em [settings.json](.vscode/settings.json) para um **ambiente de ensino** (configuração didática). Fique a vontade para alterá-los como achar melhor.
-
-A única extensão obrigatória é a _"vscjava.vscode-java-pack"_.
-
-A extensão _"EditorConfig"_ é bastante recomendada. Ela funciona junto com o arquivo [.editorconfig](.editorconfig) presente neste _template_ para padronizar a formatação dos códigos-fonte.
-
-Finalmente, se preferes o editor em Português, instale a extensão _Portuguese (Brazil) Language Pack for Visual Studio Code_.
+Importante: está uma atividade sobre divisão de responsabilidades, portanto esteja seguro(a) de criar classes auxiliares e métodos auxiliares para abrigar lógicas reusáveis ou específicas.
 
 
 
-## Instalação e Configuração do Git
+```java
+// instanciando jogadores
+Player pedro = new Player("Pedro");
+Player ana = new Player("Ana");
 
-O Git para Windows pode ser obtido neste link: <https://git-scm.com/download/win>. A instalação é simples e intuitiva. Como sempre, não esqueça dos opcionais, principalmente a opção _adicionar o git ao path_!
+System.out.println(pedro.getName().equals("Pedro"));
+System.out.println(ana.getName().equals("Ana"));
 
-Para Linux, o comando `sudo apt install git` no terminal faz tudo.
-
-Para verificar a instalação abra o _prompt_ ou um terminal e execute `git --version`. Se não acusou _"comando não encontrado"_ é porque está tudo funcionando perfeitamente.
-
-
-
-## Códigos-fonte
-
-Considere adicionar os arquivos de código-fonte `.java` no diretório [src](./src/), como o exemplo [src/App.java](./src/App.java).
+// instanciando um jogo  (estado pré-jogo)
+Yahtzee game = new Yahtzee(pedro, ana);
+System.out.println(game.isFinished() == false);
+System.out.println(game.getWinner() == null);
+System.out.println(game.getPlayer(1).equals(pedro));
+System.out.println(game.getPlayer(2).equals(ana));
 
 
+// sem rounds ainda
+System.out.println(game.getRounds().empty() == true);
+// sem escolhas ainda
+System.out.println(game.getPlayerChoices(1).empty() == true);
+System.out.println(game.getPlayerChoices(2).empty() == true);
 
-## Licenciamento
 
-Este _template_ é _open source_ licenciado sob a GPL, assim como todos os projetos derivados dele. Mais detalhes em [LICENÇA.md](LICENÇA.md).
+/*
+Escrever os métodos para a interação com o Jogo,
+que envolve rolar os dados e submeter categorias (ver #rules).
+
+Escrever os testes que validam o fluxo do algoritmo.
+
+Os testes a seguir podem ser modificados, mas não eliminados,
+eles servem para atestar o estado pós-jogo.
+*/
+
+
+System.out.println(game.isFinished() == true);
+
+// pelo número do player
+System.out.println(game.getPlayerPoints(1) > 0);
+System.out.println(game.getPlayerPoints(2) > 0);
+
+// pelo player
+System.out.println(game.getPlayerPoints(pedro) > 0);
+System.out.println(game.getPlayerPoints(ana) > 0);
+
+// para consistência
+System.out.println(game.getPlayerPoints(pedro) == game.getPlayerPoints(1)));
+
+System.out.println(game.getPlayerPoints(1) >  game.getPlayerPoints(2));
+
+// considere que Pedro ganhou
+System.out.println(pedro.equals(game.getWinner()));
+// e que ana perdeu
+System.out.println(ana.equals(game.getLoser()));
+
+
+
+int round = 1;
+
+// pontos por player number e round
+System.out.println(game.getPlayerPoints(1, round) > 0);
+// pontos por player number pode ser pela constante
+System.out.println(Player.ONE == 1);
+System.out.println(game.getPlayerPoints(Player.ONE, round) > 0);
+// pontos por player e round
+System.out.println(game.getPlayerPoints(pedro, round) > 0);
+System.out.println(game.getPlayerPoints(2, round) > 0);
+// pontos por player e round com constantes
+System.out.println(Round.FIFTH == 5);
+System.out.println(game.getPlayerPoints(Player.TWO, Round.TENTH) > 0);
+
+
+
+// Category is an Enum
+System.out.println(Category.ACES instanceof Enum);
+
+// pontos por player number e category
+System.out.println(game.getPlayerPoints(1, Category.FULL_HOUSE) > 0);
+// pontos por player e category
+System.out.println(game.getPlayerPoints(pedro, Category.FULL_HOUSE) > 0);
+System.out.println(game.getPlayerPoints(2, Category.TWOS) > 0);
+
+// Pedro's choices // java.util.List
+List<Choice> choices = game.getPlayerChoices(1);
+
+// sempre 13 rounds se jogo terminado
+System.out.println(choices.count() == 13);
+
+Choice pedrosChoiceOne = choices.first();
+// considere que Pedro escolheu ACES no primeiro round
+System.out.println(pedrosChoiceOne.getCategory().equals(Category.ACES));
+// e ganhou pelo menos um ponto
+System.out.println(pedrosChoiceOne.getPoints() > 0);
+
+List<Round> rounds = System.out.println(game.getRounds());
+// sempre 13 rounds para terminar o jogo
+System.out.println(rounds.count() == 13);
+
+// décimo terceiro round
+Round lastRound = rounds.last();
+// última escolha de Pedro (pelo player number)
+Choice lastAnasChoice = lastRound.getChoice(2);
+// última escolha de Pedro (pelo player)
+Choice lastPedrosChoice = lastRound.getChoice(pedro);
+
+// não pode ser ACES porque foi a primeira escolha
+System.out.println( ! lastPedrosChoice.getCategory().equals(Category.ACES));
+// para consistência
+System.out.println(pedrosChoiceOne.equals(rounds.first().getChoice(pedro));
+```
+
+
+### Referências:
+
+* General <http://pt.wikipedia.org/wiki/General_%28jogo%29>
+* Regras do Jogo General (megajogos) <http://www.megajogos.com.br/jogosonline/general/regras>
+* General On-line (megajogos) <http://www.megajogos.com.br/jogosonline/general>
