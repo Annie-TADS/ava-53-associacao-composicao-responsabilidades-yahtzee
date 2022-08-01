@@ -1,6 +1,6 @@
 # 5.3 // Associação, Composição e Responsabilidade // Yahtzee
 
-Use este link do GitHub Classroom para ter sua cópia alterável deste repositório: <>
+Use este link do GitHub Classroom para ter sua cópia alterável deste repositório: <https://classroom.github.com/a/-92rs0aE>
 
 Implementar respeitando os fundamentos de Orientação a Objetos.
 
