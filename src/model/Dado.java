@@ -16,6 +16,17 @@ public class Dado {
     valor = (int) (Math.random() * 6 + 1);
   }
 
+  public void rigForPedro(Player player, int roundNumber) {
+    if (player.getName().equals("Pedro")) {
+      if (roundNumber < 5) {
+        this.valor = roundNumber;
+      } else {
+       this.valor = 6;
+      }
+    } else {
+      this.valor = 1;
+    }
+  }
   /**
    * obtem o valor da face superior do dado
    *

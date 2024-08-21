@@ -1,4 +1,4 @@
-import java.util.List;
+import utils.List;
 
 import enums.Category;
 import model.Choice;
@@ -24,10 +24,10 @@ class App {
 
 
     // sem rounds ainda
-    System.out.println(game.getRounds().empty() == true);
+    System.out.println(game.getRounds().isEmpty() == true);
     // sem escolhas ainda
-    System.out.println(game.getPlayerChoices(1).empty() == true);
-    System.out.println(game.getPlayerChoices(2).empty() == true);
+    System.out.println(game.getPlayerChoices(1).isEmpty() == true);
+    System.out.println(game.getPlayerChoices(2).isEmpty() == true);
 
 
     /*
@@ -39,6 +39,7 @@ class App {
     Os testes a seguir podem ser modificados, mas não eliminados,
     eles servem para atestar o estado pós-jogo.
     */
+    game.autoGame();
 
 
     System.out.println(game.isFinished() == true);
@@ -52,9 +53,9 @@ class App {
     System.out.println(game.getPlayerPoints(ana) > 0);
 
     // para consistência
-    System.out.println(game.getPlayerPoints(pedro) == game.getPlayerPoints(1)));
+    System.out.println(game.getPlayerPoints(pedro) == game.getPlayerPoints(1));
 
-    System.out.println(game.getPlayerPoints(1) >  game.getPlayerPoints(2));
+    System.out.println(game.getPlayerPoints(1) > game.getPlayerPoints(2));
 
     // considere que Pedro ganhou
     System.out.println(pedro.equals(game.getWinner()));
@@ -92,7 +93,7 @@ class App {
     List<Choice> choices = game.getPlayerChoices(1);
 
     // sempre 13 rounds se jogo terminado
-    System.out.println(choices.count() == 13);
+    System.out.println(choices.size() == 13);
 
     Choice pedrosChoiceOne = choices.first();
     // considere que Pedro escolheu ACES no primeiro round
@@ -100,7 +101,8 @@ class App {
     // e ganhou pelo menos um ponto
     System.out.println(pedrosChoiceOne.getPoints() > 0);
 
-    List<Round> rounds = System.out.println(game.getRounds());
+    List<Round> rounds = game.getRounds();  
+    //System.out.println(game.getRounds());
     // sempre 13 rounds para terminar o jogo
     System.out.println(rounds.count() == 13);
 
@@ -114,7 +116,7 @@ class App {
     // não pode ser ACES porque foi a primeira escolha
     System.out.println( ! lastPedrosChoice.getCategory().equals(Category.ACES));
     // para consistência
-    System.out.println(pedrosChoiceOne.equals(rounds.first().getChoice(pedro));
+    System.out.println(pedrosChoiceOne.equals(rounds.first().getChoice(pedro)));
 
   }
 }

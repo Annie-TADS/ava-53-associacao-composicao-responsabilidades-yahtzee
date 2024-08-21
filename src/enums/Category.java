@@ -7,6 +7,7 @@ public enum Category {
   FOURS,
   FIVES,
   SIXES,
+  CHANCE,
   THREE_OF_A_KIND,
   FOUR_OF_A_KIND,
   FULL_HOUSE,
